@@ -125,7 +125,7 @@ func main() {
 	// TODO(miku): maybe handle signals, too
 	defer func() {
 		r := strings.NewReader(`{"index": {"refresh_interval": "1s"}}`)
-		req, err := http.NewRequest("PUT", fmt.Sprintf("http://%s:%d/%s/_settings", *host, *port, *indexName), r)
+		req, err := http.NewRequest("PUT", fmt.Sprintf("https://%s:%d/%s/_settings", *host, *port, *indexName), r)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -136,7 +136,7 @@ func main() {
 		if options.Verbose {
 			log.Printf("set index.refresh_interval to 1s: %s\n", resp.Status)
 		}
-		resp, err = http.Post(fmt.Sprintf("http://%s:%d/%s/_flush", *host, *port, *indexName), "", nil)
+		resp, err = http.Post(fmt.Sprintf("https://%s:%d/%s/_flush", *host, *port, *indexName), "", nil)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -147,7 +147,7 @@ func main() {
 	}()
 
 	r := strings.NewReader(`{"index": {"refresh_interval": "-1"}}`)
-	req, err := http.NewRequest("PUT", fmt.Sprintf("http://%s:%d/%s/_settings", *host, *port, *indexName), r)
+	req, err := http.NewRequest("PUT", fmt.Sprintf("https://%s:%d/%s/_settings", *host, *port, *indexName), r)
 	if err != nil {
 		log.Fatal(err)
 	}
