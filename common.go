@@ -26,7 +26,7 @@ type Options struct {
 
 // BulkIndex takes a set of documents as strings and indexes them into elasticsearch
 func BulkIndex(docs []string, options Options) error {
-	link := fmt.Sprintf("http://%s:%d/%s/%s/_bulk", options.Host, options.Port, options.Index, options.DocType)
+	link := fmt.Sprintf("https:///%s:%d/%s/%s/_bulk", options.Host, options.Port, options.Index, options.DocType)
 	header := fmt.Sprintf(`{"index": {"_index": "%s", "_type": "%s"}}`, options.Index, options.DocType)
 	var lines []string
 	for _, doc := range docs {
@@ -74,7 +74,7 @@ func Worker(id string, options Options, lines chan string, wg *sync.WaitGroup) {
 
 // PutMapping reads and applies a mapping from a reader.
 func PutMapping(options Options, body io.Reader) error {
-	link := fmt.Sprintf("http://%s:%d/%s/_mapping/%s", options.Host, options.Port, options.Index, options.DocType)
+	link := fmt.Sprintf("https:///%s:%d/%s/_mapping/%s", options.Host, options.Port, options.Index, options.DocType)
 	req, err := http.NewRequest("PUT", link, body)
 	if err != nil {
 		return err
@@ -91,14 +91,14 @@ func PutMapping(options Options, body io.Reader) error {
 
 // CreateIndex creates a new index.
 func CreateIndex(options Options) error {
-	resp, err := http.Get(fmt.Sprintf("http://%s:%d/%s", options.Host, options.Port, options.Index))
+	resp, err := http.Get(fmt.Sprintf("https:///%s:%d/%s", options.Host, options.Port, options.Index))
 	if err != nil {
 		return err
 	}
 	if resp.StatusCode == 200 {
 		return nil
 	}
-	req, err := http.NewRequest("PUT", fmt.Sprintf("http://%s:%d/%s/", options.Host, options.Port, options.Index), nil)
+	req, err := http.NewRequest("PUT", fmt.Sprintf("https:///%s:%d/%s/", options.Host, options.Port, options.Index), nil)
 	if err != nil {
 		return err
 	}
@@ -122,7 +122,7 @@ func CreateIndex(options Options) error {
 
 // DeleteIndex removes an index.
 func DeleteIndex(options Options) error {
-	link := fmt.Sprintf("http://%s:%d/%s", options.Host, options.Port, options.Index)
+	link := fmt.Sprintf("https:///%s:%d/%s", options.Host, options.Port, options.Index)
 	req, err := http.NewRequest("DELETE", link, nil)
 	if err != nil {
 		return err
