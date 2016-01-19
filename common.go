@@ -91,14 +91,14 @@ func PutMapping(options Options, body io.Reader) error {
 
 // CreateIndex creates a new index.
 func CreateIndex(options Options) error {
-	resp, err := http.Get(fmt.Sprintf("https:///%s:%d/%s", options.Host, options.Port, options.Index))
+	resp, err := http.Get(fmt.Sprintf("https://%s:%d/%s", options.Host, options.Port, options.Index))
 	if err != nil {
 		return err
 	}
 	if resp.StatusCode == 200 {
 		return nil
 	}
-	req, err := http.NewRequest("PUT", fmt.Sprintf("https:///%s:%d/%s/", options.Host, options.Port, options.Index), nil)
+	req, err := http.NewRequest("PUT", fmt.Sprintf("https://%s:%d/%s/", options.Host, options.Port, options.Index), nil)
 	if err != nil {
 		return err
 	}
@@ -122,7 +122,7 @@ func CreateIndex(options Options) error {
 
 // DeleteIndex removes an index.
 func DeleteIndex(options Options) error {
-	link := fmt.Sprintf("https:///%s:%d/%s", options.Host, options.Port, options.Index)
+	link := fmt.Sprintf("https://%s:%d/%s", options.Host, options.Port, options.Index)
 	req, err := http.NewRequest("DELETE", link, nil)
 	if err != nil {
 		return err
