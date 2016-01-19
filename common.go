@@ -26,7 +26,7 @@ type Options struct {
 
 // BulkIndex takes a set of documents as strings and indexes them into elasticsearch
 func BulkIndex(docs []string, options Options) error {
-	link := fmt.Sprintf("https:///%s:%d/%s/%s/_bulk", options.Host, options.Port, options.Index, options.DocType)
+	link := fmt.Sprintf("https://%s:%d/%s/%s/_bulk", options.Host, options.Port, options.Index, options.DocType)
 	header := fmt.Sprintf(`{"index": {"_index": "%s", "_type": "%s"}}`, options.Index, options.DocType)
 	var lines []string
 	for _, doc := range docs {
