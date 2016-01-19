@@ -74,7 +74,7 @@ func Worker(id string, options Options, lines chan string, wg *sync.WaitGroup) {
 
 // PutMapping reads and applies a mapping from a reader.
 func PutMapping(options Options, body io.Reader) error {
-	link := fmt.Sprintf("https:///%s:%d/%s/_mapping/%s", options.Host, options.Port, options.Index, options.DocType)
+	link := fmt.Sprintf("https://%s:%d/%s/_mapping/%s", options.Host, options.Port, options.Index, options.DocType)
 	req, err := http.NewRequest("PUT", link, body)
 	if err != nil {
 		return err
